@@ -82,8 +82,8 @@ def access_login_page(random_user_agent, glaxy_dollar_pro_session_use, xsrf_toke
 
     while retries < max_retries:
         try:
-            # Sending GET request with headers and cookies
-            response = requests.get(url, headers=headers, cookies=cookies)
+            session = requests.Session()
+            response = session.get(url, headers=headers, timeout=10)
             response.encoding = 'utf-8'
             if response.status_code != 200:
                 if is_network_issue(response.status_code):
