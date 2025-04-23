@@ -4,31 +4,10 @@ import html
 import json
 import time
 import re
-from datetime import datetime, timedelta
 from urllib.parse import unquote
 
-def get_proxies():
-    proxy_url = "https://proxy.webshare.io/api/v2/proxy/list/download/hlezaktorylkvdogejmezzswxnzfsfqpdrzsigbh/-/any/username/direct/-/"
-    try:
-        response = requests.get(proxy_url)
-        proxies_raw = response.text.strip().split('\n')
-        proxies = []
-        for proxy in proxies_raw:
-            # Format: ip:port:user:pass
-            parts = proxy.strip().split(":")
-            if len(parts) == 4:
-                ip, port, user, pwd = parts
-                proxy_dict = {
-                    "http": f"http://{user}:{pwd}@{ip}:{port}",
-                    "https": f"http://{user}:{pwd}@{ip}:{port}",
-                }
-                proxies.append(proxy_dict)
-        return proxies
-    except Exception as e:
-        print(f"Error downloading proxies: {e}")
-        return []
-    
-def use_website(random_user_agent, proxy):
+
+def use_website(random_user_agent):
 
     url = "https://www.glaxydollars.com.pk/login"
     
@@ -40,7 +19,6 @@ def use_website(random_user_agent, proxy):
     
     try:
         session = requests.Session()
-        session.proxies.update(proxy)
 
         # Initial request
         response = session.get(url, headers=headers, timeout=10)
@@ -58,7 +36,7 @@ def use_website(random_user_agent, proxy):
             'glaxy_dollars_pro_session': galaxy_session
         }
     except Exception as e:
-        print(f"Request failed with proxy {proxy}: {e}")
+        print(f"Request failed: {e}")
         return None
 
 
@@ -106,8 +84,7 @@ def access_login_page(random_user_agent, glaxy_dollar_pro_session_use, xsrf_toke
         try:
             # Sending GET request with headers and cookies
             response = requests.get(url, headers=headers, cookies=cookies)
-            with open("response.html", "w", encoding="utf-8") as file:
-                file.write(response.text)
+            response.encoding = 'utf-8'
             if response.status_code != 200:
                 if is_network_issue(response.status_code):
                     print(f"Network issue detected (status code: {response.status_code}). Retrying in {retry_delay} seconds...")
@@ -901,13 +878,10 @@ def automate(username,password):
     ]
     import random
     random_user_agent = random.choice(ua)
-    proxies = get_proxies()
     while True:
-        chosen_proxy = random.choice(proxies)
-        result_use = use_website(random_user_agent,chosen_proxy)
+        result_use = use_website(random_user_agent)
         if result_use and result_use.get('XSRF-TOKEN') and result_use.get('glaxy_dollars_pro_session'):
             print("✅ Successfully fetched XSRF-TOKEN and glaxy_dollars_pro_session.")
-            print("XSRF-TOKEN:", result_use["XSRF-TOKEN"])
             print("glaxy_dollars_pro_session:", result_use["glaxy_dollars_pro_session"])
             break
         print("Retrying to fetch XSRF-TOKEN and glaxy_dollars_pro_session...")
