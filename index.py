@@ -106,7 +106,8 @@ def access_login_page(random_user_agent, glaxy_dollar_pro_session_use, xsrf_toke
         try:
             # Sending GET request with headers and cookies
             response = requests.get(url, headers=headers, cookies=cookies)
-            
+            with open("response.html", "w", encoding="utf-8") as file:
+                file.write(response.text)
             if response.status_code != 200:
                 if is_network_issue(response.status_code):
                     print(f"Network issue detected (status code: {response.status_code}). Retrying in {retry_delay} seconds...")
