@@ -44,7 +44,7 @@ def use_website(random_user_agent, proxy):
 
         # Initial request
         response = session.get(url, headers=headers, timeout=10)
-        
+        response.encoding = 'utf-8'
         if "Please wait" in response.text:
             print("Waiting for challenge...")
             time.sleep(3)
@@ -252,6 +252,7 @@ def send_login_data(xsrf_token, pro_session, csrf_token, fingerprint, checksum, 
 
         while retries < max_retries:
             response = requests.post(url, headers=headers, json=payload)
+            response.encoding = 'utf-8'
             if response.status_code == 200:
                 # Extract cookies
                 xsrf_token = response.cookies.get("XSRF-TOKEN")
@@ -315,6 +316,7 @@ def access_dashboard(random_user_agent, pro_session, xsrf_token):
                 headers=headers,
                 cookies=cookies
             )
+            response.encoding = 'utf-8'
             if response.status_code == 200:
                 xsrf_token = response.cookies.get("XSRF-TOKEN")
                 glaxy_dollars_pro_session = response.cookies.get("glaxy_dollars_pro_session")
@@ -378,7 +380,7 @@ def access_ads_page(random_user_agent, xsrf_token, pro_session):
                 cookies=cookies,
                 timeout=30
             )
-            
+            response.encoding = 'utf-8'
             if response.status_code == 200:
                 response_cookies = response.cookies.get_dict()
                 xsrf_token_new = response_cookies.get('XSRF-TOKEN', 'Not found in response cookies')
@@ -547,7 +549,7 @@ def access_typing_page(random_user_agent, xsrf_token, pro_session):
                 cookies=cookies,
                 timeout=30
             )
-            
+            response.encoding = 'utf-8'
             if response.status_code == 200:
                 response_cookies = response.cookies.get_dict()
                 xsrf_token_new = response_cookies.get('XSRF-TOKEN', 'Not found in response cookies')
@@ -749,7 +751,7 @@ def submit_ad(random_user_agent, xsrf_token, pro_session, youtube_url, htmlhash,
     try:
         
         response = requests.post(url, headers=headers, json=payload, timeout=30)
-        
+        response.encoding = 'utf-8'
       
         if response.status_code == 200:
             try:
@@ -869,7 +871,7 @@ def submit_typing_task(random_user_agent, xsrf_token, pro_session, htmlhash, fin
         headers["Content-Length"] = str(len(payload_str))
         
         response = requests.post(url, headers=headers, json=payload, timeout=30)
-        
+        response.encoding = 'utf-8'
         if response.status_code == 200:
             try:
                 response_json = response.json()
