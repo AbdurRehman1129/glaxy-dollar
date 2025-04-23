@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login - Galaxy Dollars </title>
+    <link rel="stylesheet" href="https://www.glaxydollars.com.pk/home_assets/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://www.glaxydollars.com.pk/home_assets/scss/style.css" />
+    <link rel="stylesheet" href="https://www.glaxydollars.com.pk/home_assets/scss/all.min.css" />
+
+    <meta property="og:image" content="https://www.glaxydollars.com.pk/assets/images/default.jpg" />
+    <meta property="og:image:secure_url" content="https://www.glaxydollars.com.pk/assets/images/default.jpg" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="300" />
+    <style >[wire\:loading], [wire\:loading\.delay], [wire\:loading\.inline-block], [wire\:loading\.inline], [wire\:loading\.block], [wire\:loading\.flex], [wire\:loading\.table], [wire\:loading\.grid], [wire\:loading\.inline-flex] {display: none;}[wire\:loading\.delay\.shortest], [wire\:loading\.delay\.shorter], [wire\:loading\.delay\.short], [wire\:loading\.delay\.long], [wire\:loading\.delay\.longer], [wire\:loading\.delay\.longest] {display:none;}[wire\:offline] {display: none;}[wire\:dirty]:not(textarea):not(input):not(select) {display: none;}input:-webkit-autofill, select:-webkit-autofill, textarea:-webkit-autofill {animation-duration: 50000s;animation-name: livewireautofill;}@keyframes livewireautofill { from {} }</style>
+</head>
+
+<body style="background-color: #07000e;">
+    <!-- ========================login======================== -->
+
+    <div wire:id="rViirDlIGOX8pKKQ46Hj" wire:initial-data="{&quot;fingerprint&quot;:{&quot;id&quot;:&quot;rViirDlIGOX8pKKQ46Hj&quot;,&quot;name&quot;:&quot;user.auth.user-login&quot;,&quot;locale&quot;:&quot;en&quot;,&quot;path&quot;:&quot;login&quot;,&quot;method&quot;:&quot;GET&quot;,&quot;v&quot;:&quot;acj&quot;},&quot;effects&quot;:{&quot;listeners&quot;:[]},&quot;serverMemo&quot;:{&quot;children&quot;:[],&quot;errors&quot;:[],&quot;htmlHash&quot;:&quot;41dab371&quot;,&quot;data&quot;:{&quot;showPass&quot;:true,&quot;email&quot;:null,&quot;password&quot;:null},&quot;dataMeta&quot;:[],&quot;checksum&quot;:&quot;84dd1be10edeed5c105d99848fb467a21dc54de5a1c61318c4384959e7a9080c&quot;}}">
+    <section class="login-pg margin">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="form-sec mx-auto">
+                        <h4 class="text-center">Welcome to
+                            <span>Galaxy Dollars </span>
+                        </h4>
+                        <form wire:submit.prevent="login">
+                            <div class="form-floating mb-3">
+                                <input wire:model.defer="email" type="text" class="form-control" id="email"
+                                    placeholder="Enter email or username">
+
+                                <label for="email">Email or username</label>
+                            </div>
+                                                        <div class="form-floating mb-3">
+                                <input wire:model.defer="password" type="password" class="form-control" id="password"
+                                    placeholder="Enter password">
+                                <i id="togglePassword" class="far fa-eye"></i>
+                                <label for="floatingPassword">Password</label>
+                            </div>
+                                                        <p class="forgot">Forgot your password? <a href="https://www.glaxydollars.com.pk/forgot-password">Recover
+                                    Password</a></p>
+
+                            <button type="submit" class="btn default-btn d-table mx-auto mt-4 px-4 py-2">
+                                <i class="fa-solid fa-right-to-bracket"></i> Login <div wire:loading
+                                    wire:target="login">
+                                    <i class="fa-solid fa-spinner font-size-16 me-2 align-middle"></i>
+                                </div>
+                            </button>
+                        </form>
+                        <div class="or mt-5">
+                            <span>OR</span>
+                        </div>
+                        <p class="forgot mt-4 text-center">Don't have an account? <a href="https://www.glaxydollars.com.pk/signup">
+                                Sign Up Here</a></p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Livewire Component wire-end:rViirDlIGOX8pKKQ46Hj -->
+    <!-- ========================login======================== -->
+    <script src="https://www.glaxydollars.com.pk/home_assets/js/jquery.js"></script>
+    <script src="https://www.glaxydollars.com.pk/home_assets/js/owl.carousel.min.js"></script>
+    <script src="https://www.glaxydollars.com.pk/home_assets/js/javascript.js"></script>
+    <script src="https://www.glaxydollars.com.pk/home_assets/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="https://www.glaxydollars.com.pk/assets/libs/sweetalert2/sweetalert2.all.min.js"></script>
+
+    <script>
+        window.addEventListener('swal:loginFailed', function(e) {
+            swal.fire({
+                icon: e.detail.icon,
+                title: e.detail.title,
+                text: e.detail.text
+            }).then(() => {
+                if (e.detail.url) {
+                    window.location.href = e.detail.url;
+                }
+                if (e.detail.modal) {
+                    $(e.detail.modal).modal('hide');
+                }
+            });
+        });
+    </script>
+
+    
+        <script src="/vendor/livewire/livewire.js?id=90730a3b0e7144480175" data-turbo-eval="false" data-turbolinks-eval="false" ></script><script data-turbo-eval="false" data-turbolinks-eval="false" >window.livewire = new Livewire();window.Livewire = window.livewire;window.livewire_app_url = '';window.livewire_token = 'o1XlM1st6ffj0DJ5j5S0Lu9xQ71WNXOfnPaPCOlK';window.deferLoadingAlpine = function (callback) {window.addEventListener('livewire:load', function () {callback();});};let started = false;window.addEventListener('alpine:initializing', function () {if (! started) {window.livewire.start();started = true;}});document.addEventListener("DOMContentLoaded", function () {if (! started) {window.livewire.start();started = true;}});</script>
+</body>
+
+</html>
