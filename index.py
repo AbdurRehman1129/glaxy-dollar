@@ -62,7 +62,7 @@ def access_login_page(random_user_agent, glaxy_dollar_pro_session_use, xsrf_toke
         "Sec-Fetch-User": "?1",
         "Sec-Fetch-Dest": "document",
         "Referer": "https://www.glaxydollars.com.pk/user/dashboard",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Encoding": "identity",
         "Accept-Language": "en-US,en;q=0.9",
         "Priority": "u=0, i"
     }
@@ -166,7 +166,7 @@ def send_login_data(xsrf_token, pro_session, csrf_token, fingerprint, checksum, 
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Dest": "empty",
         "Referer": "https://www.glaxydollars.com.pk/login",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Encoding": "identity",
         "Accept-Language": "en-US,en;q=0.9",
         "Priority": "u=1, i"
     }
@@ -270,7 +270,7 @@ def access_dashboard(random_user_agent, pro_session, xsrf_token):
         "Sec-Fetch-User": "?1",
         "Sec-Fetch-Dest": "document",
         "Referer": "https://www.glaxydollars.com.pk/login",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Encoding": "identity",
         "Accept-Language": "en-US,en;q=0.9",
         "Priority": "u=0, i"
     }
@@ -334,7 +334,7 @@ def access_ads_page(random_user_agent, xsrf_token, pro_session):
         "Sec-Fetch-User": "?1",
         "Sec-Fetch-Dest": "document",
         "Referer": "https://www.glaxydollars.com.pk/user/dashboard",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Encoding": "identity",
         "Accept-Language": "en-US,en;q=0.9",
         "Priority": "u=0, i"
     }
@@ -503,7 +503,7 @@ def access_typing_page(random_user_agent, xsrf_token, pro_session):
         "Sec-Fetch-User": "?1",
         "Sec-Fetch-Dest": "document",
         "Referer": "https://www.glaxydollars.com.pk/user/dashboard",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Encoding": "identity",
         "Accept-Language": "en-US,en;q=0.9",
         "Priority": "u=0, i"
     }
@@ -663,7 +663,7 @@ def submit_ad(random_user_agent, xsrf_token, pro_session, youtube_url, htmlhash,
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Dest": "empty",
         "Referer": "https://www.glaxydollars.com.pk/user/ads/video",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Encoding": "identity",
         "Accept-Language": "en-US,en;q=0.9",
         "Priority": "u=1, i",
         "Cookie": f"XSRF-TOKEN={xsrf_token}; glaxy_dollars_pro_session={pro_session}"
@@ -773,7 +773,7 @@ def submit_typing_task(random_user_agent, xsrf_token, pro_session, htmlhash, fin
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Dest": "empty",
         "Referer": "https://www.glaxydollars.com.pk/user/ads/typing-task",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Encoding": "identity",
         "Accept-Language": "en-US,en;q=0.9",
         "Priority": "u=1, i",
         "Cookie": f"XSRF-TOKEN={xsrf_token}; glaxy_dollars_pro_session={pro_session}"
