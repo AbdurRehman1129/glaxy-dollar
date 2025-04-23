@@ -85,8 +85,6 @@ def access_login_page(random_user_agent, glaxy_dollar_pro_session_use, xsrf_toke
             session = requests.Session()
             response = session.get(url, headers=headers, timeout=10)
             response.encoding = 'utf-8'
-            with open("response.html", "w", encoding="utf-8") as file:
-                file.write(response.text)
             if response.status_code != 200:
                 if is_network_issue(response.status_code):
                     print(f"Network issue detected (status code: {response.status_code}). Retrying in {retry_delay} seconds...")
@@ -884,7 +882,6 @@ def automate(username,password):
         result_use = use_website(random_user_agent)
         if result_use and result_use.get('XSRF-TOKEN') and result_use.get('glaxy_dollars_pro_session'):
             print("✅ Successfully fetched XSRF-TOKEN and glaxy_dollars_pro_session.")
-            print("glaxy_dollars_pro_session:", result_use["glaxy_dollars_pro_session"])
             break
         print("Retrying to fetch XSRF-TOKEN and glaxy_dollars_pro_session...")
         time.sleep(5)  # Optional delay before retrying
@@ -904,14 +901,6 @@ def automate(username,password):
         glaxy_dollar_pro_session_access = result_access.get('glaxy_dollar_pro_session')
         xsrf_token_access = result_access.get('xsrf_token')
 
-        print("\n" + "-" * 50)
-        print(f"livewire_token_access: {livewire_token_access}")
-        print(f"fingerprint_id_access: {fingerprint_id_access}")
-        print(f"checksum_access: {checksum_access}")
-        print(f"htmlhash_access: {htmlhash_access}")
-        print(f"glaxy_dollar_pro_session_access: {glaxy_dollar_pro_session_access}")
-        print(f"xsrf_token_access: {xsrf_token_access}")
-        print("-" * 50 + "\n")
     result_login = send_login_data(xsrf_token_access, glaxy_dollar_pro_session_access, livewire_token_access, fingerprint_id_access, checksum_access, random_user_agent,htmlhash_access, username, password)
     if result_login:
         xsrf_token_login = result_login.get('xsrf_token')
