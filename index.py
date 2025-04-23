@@ -851,6 +851,14 @@ def automate(username,password):
         glaxy_dollar_pro_session_access = result_access.get('glaxy_dollar_pro_session')
         xsrf_token_access = result_access.get('xsrf_token')
 
+        print("\n" + "-" * 50)
+        print(f"livewire_token_access: {livewire_token_access}")
+        print(f"fingerprint_id_access: {fingerprint_id_access}")
+        print(f"checksum_access: {checksum_access}")
+        print(f"htmlhash_access: {htmlhash_access}")
+        print(f"glaxy_dollar_pro_session_access: {glaxy_dollar_pro_session_access}")
+        print(f"xsrf_token_access: {xsrf_token_access}")
+        print("-" * 50 + "\n")
     result_login = send_login_data(xsrf_token_access, glaxy_dollar_pro_session_access, livewire_token_access, fingerprint_id_access, checksum_access, random_user_agent,htmlhash_access, username, password)
     if result_login:
         xsrf_token_login = result_login.get('xsrf_token')
