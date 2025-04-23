@@ -4,26 +4,7 @@ import random
 import json
 import html
 
-def get_proxies():
-    proxy_url = "https://proxy.webshare.io/api/v2/proxy/list/download/hlezaktorylkvdogejmezzswxnzfsfqpdrzsigbh/-/any/username/direct/-/"
-    try:
-        response = requests.get(proxy_url)
-        proxies_raw = response.text.strip().split('\n')
-        proxies = []
-        for proxy in proxies_raw:
-            # Format: ip:port:user:pass
-            parts = proxy.strip().split(":")
-            if len(parts) == 4:
-                ip, port, user, pwd = parts
-                proxy_dict = {
-                    "http": f"http://{user}:{pwd}@{ip}:{port}",
-                    "https": f"http://{user}:{pwd}@{ip}:{port}",
-                }
-                proxies.append(proxy_dict)
-        return proxies
-    except Exception as e:
-        print(f"Error downloading proxies: {e}")
-        return []
+
 
 def access_login_page(random_user_agent, glaxy_dollar_pro_session_use, xsrf_token_use):
     """
@@ -47,7 +28,7 @@ def access_login_page(random_user_agent, glaxy_dollar_pro_session_use, xsrf_toke
         "Sec-Fetch-User": "?1",
         "Sec-Fetch-Dest": "document",
         "Referer": "https://www.glaxydollars.com.pk/user/dashboard",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Encoding": "identity",
         "Accept-Language": "en-US,en;q=0.9",
         "Priority": "u=0, i"
     }
@@ -70,8 +51,10 @@ def access_login_page(random_user_agent, glaxy_dollar_pro_session_use, xsrf_toke
             # Sending GET request with headers and cookies
             session = requests.Session()
             response = session.get(url, headers=headers, timeout=10)
+            response.encoding = 'utf-8'
             with open("response.html", "w", encoding="utf-8") as file:
                 file.write(response.text)
+
             if response.status_code != 200:
                 if is_network_issue(response.status_code):
                     print(f"Network issue detected (status code: {response.status_code}). Retrying in {retry_delay} seconds...")
