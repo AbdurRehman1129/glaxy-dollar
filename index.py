@@ -7,7 +7,62 @@ import re
 from datetime import datetime, timedelta
 from urllib.parse import unquote
 
-def access_login_page(random_user_agent):
+def get_proxies():
+    proxy_url = "https://proxy.webshare.io/api/v2/proxy/list/download/hlezaktorylkvdogejmezzswxnzfsfqpdrzsigbh/-/any/username/direct/-/"
+    try:
+        response = requests.get(proxy_url)
+        proxies_raw = response.text.strip().split('\n')
+        proxies = []
+        for proxy in proxies_raw:
+            # Format: ip:port:user:pass
+            parts = proxy.strip().split(":")
+            if len(parts) == 4:
+                ip, port, user, pwd = parts
+                proxy_dict = {
+                    "http": f"http://{user}:{pwd}@{ip}:{port}",
+                    "https": f"http://{user}:{pwd}@{ip}:{port}",
+                }
+                proxies.append(proxy_dict)
+        return proxies
+    except Exception as e:
+        print(f"Error downloading proxies: {e}")
+        return []
+    
+def use_website(random_user_agent, proxy):
+
+    url = "https://www.glaxydollars.com.pk/login"
+    
+    headers = {
+        "User-Agent": random_user_agent,
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+        "Accept-Language": "en-US,en;q=0.9",
+    }
+    
+    try:
+        session = requests.Session()
+        session.proxies.update(proxy)
+
+        # Initial request
+        response = session.get(url, headers=headers, timeout=10)
+        
+        if "Please wait" in response.text:
+            print("Waiting for challenge...")
+            time.sleep(3)
+            response = session.get(url, headers=headers, timeout=10)
+
+        xsrf_token = session.cookies.get('XSRF-TOKEN')
+        galaxy_session = session.cookies.get('glaxy_dollars_pro_session')
+
+        return {
+            'XSRF-TOKEN': xsrf_token,
+            'glaxy_dollars_pro_session': galaxy_session
+        }
+    except Exception as e:
+        print(f"Request failed with proxy {proxy}: {e}")
+        return None
+
+
+def access_login_page(random_user_agent, glaxy_dollar_pro_session_use, xsrf_token_use):
     """
     Sends a GET request to the Glaxy Dollars login page with specific headers and cookies.
     Extracts livewire_token, fingerprint_id, checksum, and cookies from the response.
@@ -35,8 +90,8 @@ def access_login_page(random_user_agent):
     }
     
     cookies = {
-        "XSRF-TOKEN": "abcd",
-        "glaxy_dollars_pro_session": "abcd"
+        "XSRF-TOKEN":xsrf_token_use,
+        "glaxy_dollars_pro_session": glaxy_dollar_pro_session_use
     }
     
     def is_network_issue(status_code):
@@ -836,9 +891,28 @@ def submit_typing_task(random_user_agent, xsrf_token, pro_session, htmlhash, fin
         return {"status": "error", "message": str(e)}
 
 def automate(username,password):
-    ua = UserAgent()
-    random_user_agent = ua.random
-    result_access = access_login_page(random_user_agent)
+    ua = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+    ]
+    import random
+    random_user_agent = random.choice(ua)
+    proxies = get_proxies()
+    while True:
+        chosen_proxy = random.choice(proxies)
+        result_use = use_website(random_user_agent,chosen_proxy)
+        if result_use and result_use.get('XSRF-TOKEN') and result_use.get('glaxy_dollars_pro_session'):
+            print("✅ Successfully fetched XSRF-TOKEN and glaxy_dollars_pro_session.")
+            print("XSRF-TOKEN:", result_use["XSRF-TOKEN"])
+            print("glaxy_dollars_pro_session:", result_use["glaxy_dollars_pro_session"])
+            break
+        print("Retrying to fetch XSRF-TOKEN and glaxy_dollars_pro_session...")
+        time.sleep(5)  # Optional delay before retrying
+
+    glaxy_dollar_pro_session_use = result_use.get('XSRF-TOKEN')
+    xsrf_token_use = result_use.get('glaxy_dollars_pro_session')
+    result_access = access_login_page(random_user_agent, glaxy_dollar_pro_session_use, xsrf_token_use)
     
     if "error" in result_access:
         print(result_access["error"])
